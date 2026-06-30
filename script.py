@@ -9,13 +9,31 @@ for item in folder.iterdir():
     extension=item.suffix.lower()
     if extension==".jpg" or extension==".png":
         print("Belongs to Images")
-       
+        destination=folder / "Images"
+        if not destination.exists():
+            destination.mkdir()
+            print("Image folder created.")
+        else:
+            print("Folder already exists")
+
     elif extension==".pdf" or extension==".txt":
         print("Belongs to Documents")
+        destination=folder / "Docs"
+        if not destination.exists():
+            destination.mkdir()
+            print("Docs folder created.")
+        else:
+            print("Folder already exists")
 
     elif extension==".mp3":
         print("Belongs to Audio")
-  
+        destination=folder / "Audio"
+        if not destination.exists():
+            destination.mkdir()
+            print("Audio folder created.")
+        else:
+            print("Folder already exists")
+
     print()
 
 
