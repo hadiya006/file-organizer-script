@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 
 folder=Path(r"C:\Users\hadiya\Downloads\TestFolder")
 for item in folder.iterdir():
@@ -15,6 +16,7 @@ for item in folder.iterdir():
             print("Image folder created.")
         else:
             print("Folder already exists")
+        shutil.move(item,destination)
 
     elif extension==".pdf" or extension==".txt":
         print("Belongs to Documents")
@@ -24,6 +26,7 @@ for item in folder.iterdir():
             print("Docs folder created.")
         else:
             print("Folder already exists")
+        shutil.move(item,destination)
 
     elif extension==".mp3":
         print("Belongs to Audio")
@@ -33,6 +36,7 @@ for item in folder.iterdir():
             print("Audio folder created.")
         else:
             print("Folder already exists")
+        shutil.move(item,destination)
 
     print()
 
