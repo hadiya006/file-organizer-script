@@ -3,6 +3,14 @@ import shutil
 import logging
 import argparse
 
+
+rules={
+    ".jpg":"Images",
+    ".png":"Images",
+    ".pdf":"Docs",
+    ".txt":"Docs",
+    ".mp3":"Audio"
+}
 parser=argparse.ArgumentParser()
 parser.add_argument("--dry-run",action="store_true")
 args=parser.parse_args()
@@ -20,8 +28,8 @@ for item in folder.iterdir():
     #print("Extension:",item.suffix) #file extension
     #print("Size:",item.stat().st_size) #size of file in bytes
     extension=item.suffix.lower()
-    if extension==".jpg" or extension==".png":
-        destination=folder / "Images"
+    if extension in rules:
+        destination=folder / rules[extension]
         if not destination.exists():
             destination.mkdir()
             logging.info(f"Created folder: {destination.name}")
@@ -33,25 +41,31 @@ for item in folder.iterdir():
             shutil.move(item,destination)
             logging.info(f"Moving {item.name} to {destination.name}")
 
-    elif extension==".pdf" or extension==".txt":
-        destination=folder / "Docs"
+    elif extension in rules:
+        destination=folder / rules[extension]
         if not destination.exists():
             destination.mkdir()
             logging.info(f"Created folder: {destination.name}")
         else:
             print("Folder already exists")
-        shutil.move(item,destination)
-        logging.info(f"Moving {item.name} to {destination.name}")
+        if args.dry_run:
+            logging.info(f"Would move {item.name} to {destination.name}")
+        else:
+            shutil.move(item,destination)
+            logging.info(f"Moving {item.name} to {destination.name}")
 
-    elif extension==".mp3":
-        destination=folder / "Audio"
+    elif extension in rules:
+        destination=folder / rules[extension]
         if not destination.exists():
             destination.mkdir()
             logging.info(f"Created folder: {destination.name}")
         else:
             print("Folder already exists")
-        shutil.move(item,destination)
-        logging.info(f"Moving {item.name} to {destination.name}")
+        if args.dry_run:
+            logging.info(f"Would move {item.name} to {destination.name}")
+        else:
+            shutil.move(item,destination)
+            logging.info(f"Moving {item.name} to {destination.name}")
 
 
     print()
