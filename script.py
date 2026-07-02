@@ -1,6 +1,11 @@
 from pathlib import Path
 import shutil
 import logging
+import argparse
+
+parser=argparse.ArgumentParser()
+parser.add_argument("--dry-run",action="store_true")
+args=parser.parse_args()
 
 logging.basicConfig(
     filename="organizer.log",
@@ -22,8 +27,11 @@ for item in folder.iterdir():
             logging.info(f"Created folder: {destination.name}")
         else:
             print("Folder already exists")
-        shutil.move(item,destination)
-        logging.info(f"Moving {item.name} to {destination.name}")
+        if args.dry_run:
+            logging.info(f"Would move {item.name} to {destination.name}")
+        else:
+            shutil.move(item,destination)
+            logging.info(f"Moving {item.name} to {destination.name}")
 
     elif extension==".pdf" or extension==".txt":
         destination=folder / "Docs"
